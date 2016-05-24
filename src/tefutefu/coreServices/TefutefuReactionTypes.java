@@ -1,9 +1,9 @@
 package tefutefu.coreServices;
 
 public enum TefutefuReactionTypes {
-	Reply,
-	Fav,
-	RT,
-	DM,
-	Custom
+  Reply,
+  Fav,
+  RT,
+  DM,
+  Custom
 }
