@@ -51,5 +51,6 @@ public class TefutefuUserStream extends TefutefuService {
   
   protected void processStatus(Status status) {
     this.tsm.streamStatusQueues.pushToRecvQueue(new TefutefuMessage<Status>(status));
+    this.tsm.processTweetEvent();
   }
 }

@@ -1,6 +1,8 @@
 package tefutefu.service;
+import tefutefu.message.*;
+import twitter4j.Status;
 
-abstract public class TefutefuService {
+abstract public class TefutefuService extends TefutefuMessageQueues<Status> {
   public ServiceType type;
   public String      serviceName;
   public boolean     running;

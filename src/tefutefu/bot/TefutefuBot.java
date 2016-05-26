@@ -1,10 +1,13 @@
 package tefutefu.bot;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 import tefutefu.service.*;
 import tefutefu.coreServices.*;
+
 /*
  *   Twitter Bot のConsumerKeyやAccessToeknをもつ。
  * このクラスがTefutefuを制御する実態(TefutefuMainクラスはこのクラスをインスタンスとして呼び出す)
@@ -23,7 +26,7 @@ public class TefutefuBot {
     consumerSecret    = "";
     accessToken       = "";
     accessTokenSecret = "";
-
+    
     ConfigurationBuilder cb = new ConfigurationBuilder();
 
     cb.setOAuthConsumerKey(consumerKey);
@@ -35,12 +38,21 @@ public class TefutefuBot {
   }
   
   public void boot() {
-    TefutefuServiceManager tsm           = new TefutefuServiceManager();
-    TefutefuUserStream userStreamService = new TefutefuUserStream(tsm);
+    TwitterFactory tf = new TwitterFactory(conf);
+    Twitter twitter = tf.getInstance();
+    TefutefuServiceManager tsm           = new TefutefuServiceManager(twitter);
+    TefutefuReactionStore reactionStore = new TefutefuReactionStore(twitter);
 
+    reactionStore.addNewReaction(new Egosa(twitter));
+    reactionStore.addNewReaction(new OutPut());
+
+    tsm.addNewService(reactionStore);
+    tsm.startService("TefutefuReactionStore");
+
+    TefutefuUserStream userStreamService = new TefutefuUserStream(tsm);
     userStreamService.initialize(conf);
     tsm.addNewService(userStreamService);
-    
-    tsm.startEventLoop();
+    tsm.startService("TefutefuUserStream");
+
   }
 }
