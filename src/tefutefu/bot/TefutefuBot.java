@@ -32,7 +32,7 @@ public class TefutefuBot {
     JsonNode     root;
 
     try {
-      root = mapper.readTree(new File("settings.json"));
+      root = mapper.readTree(new File("configure.json"));
 
       consumerKey       = root.get("consumerKey").asText();
       consumerSecret    = root.get("consumerSecret").asText();
