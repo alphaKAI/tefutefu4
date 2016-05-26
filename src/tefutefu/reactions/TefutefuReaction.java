@@ -1,5 +1,7 @@
 package tefutefu.reactions;
 import java.util.ArrayList;
+
+import tefutefu.commons.Importance;
 import tefutefu.message.*;
 import twitter4j.Status;
 
@@ -10,6 +12,7 @@ public abstract class TefutefuReaction extends TefutefuMessageQueues<Status> {
   public boolean                          fallthrough     = true;
   public boolean                          limited         = false;//limitedが有効な場合、以下のフォロースローリストにないtypeは弾かれる
   public ArrayList<TefutefuReactionTypes> fallthroughList = new ArrayList<TefutefuReactionTypes>();
+  public Importance                       importance      = Importance.MID;
 
   public TefutefuReaction(TefutefuReactionTypes type) {
     this.type    = type;

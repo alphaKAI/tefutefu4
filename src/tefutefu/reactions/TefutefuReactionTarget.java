@@ -5,7 +5,7 @@ package tefutefu.reactions;
  */
 public class TefutefuReactionTarget {
   public String targetUserScreenName;
-  public long targetTweetID;
+  public long   targetTweetID;
 
   public TefutefuReactionTarget(long targetTweetID, String targetUserScreenName) {
     this(targetUserScreenName, targetTweetID);

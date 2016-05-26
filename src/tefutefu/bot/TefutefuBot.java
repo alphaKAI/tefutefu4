@@ -8,6 +8,12 @@ import twitter4j.conf.ConfigurationBuilder;
 import tefutefu.service.*;
 import tefutefu.coreServices.*;
 
+import java.io.File;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 /*
  *   Twitter Bot のConsumerKeyやAccessToeknをもつ。
  * このクラスがTefutefuを制御する実態(TefutefuMainクラスはこのクラスをインスタンスとして呼び出す)
@@ -22,11 +28,18 @@ public class TefutefuBot {
   private Configuration conf;
   
   public TefutefuBot() {
-    consumerKey       = "";
-    consumerSecret    = "";
-    accessToken       = "";
-    accessTokenSecret = "";
-    
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode     root;
+
+    try {
+      root = mapper.readTree(new File("settings.json"));
+
+      consumerKey       = root.get("consumerKey").asText();
+      consumerSecret    = root.get("consumerSecret").asText();
+      accessToken       = root.get("accessToken").asText();
+      accessTokenSecret = root.get("accessTokenSecret").asText();
+    } catch (Exception e) {}
+
     ConfigurationBuilder cb = new ConfigurationBuilder();
 
     cb.setOAuthConsumerKey(consumerKey);
@@ -38,11 +51,12 @@ public class TefutefuBot {
   }
   
   public void boot() {
-    TwitterFactory tf = new TwitterFactory(conf);
-    Twitter twitter = tf.getInstance();
-    TefutefuServiceManager tsm           = new TefutefuServiceManager(twitter);
-    TefutefuReactionStore reactionStore = new TefutefuReactionStore(twitter);
+    TwitterFactory          twitterFactory = new TwitterFactory(conf);
+    Twitter                 twitter        = twitterFactory.getInstance();
+    TefutefuServiceManager  tsm            = new TefutefuServiceManager(twitter);
+    TefutefuReactionStore   reactionStore  = new TefutefuReactionStore(twitter);
 
+    // TODO: フォールスローのテストをする。
     reactionStore.addNewReaction(new Egosa(twitter));
     reactionStore.addNewReaction(new OutPut());
 

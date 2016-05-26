@@ -14,7 +14,7 @@ public class TefutefuServiceManager {
   public  TefutefuMessageQueues<Status>        streamStatusQueues = new TefutefuMessageQueues<Status>() {
     @Override
     public void recvReaction(TefutefuMessage<Status> message) {
-      //他のサービス(と言うかリアクション処理)にたらい回す
+      //TODO : 他のサービス(と言うかリアクション処理)にたらい回す
       //Status status = message.data;
       System.out.println("recvReaction");
 

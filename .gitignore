@@ -5,3 +5,6 @@
 .DS_Store
 *.iml
 .project
+configure.json
+bin/
+lib/

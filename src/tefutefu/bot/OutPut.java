@@ -17,7 +17,7 @@ public class OutPut extends TefutefuReaction {
   public TefutefuReactionContainer process(Status status) {
     TefutefuReactionContainer trc = new TefutefuReactionContainer(
         TefutefuReactionTypes.Custom
-    );
+      );
 
     System.out.println("------------------------------------");
     System.out.printf("%s(@%s) : %s\n",

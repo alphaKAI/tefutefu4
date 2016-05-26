@@ -15,14 +15,14 @@ import java.util.regex.Pattern;
  * Created by alphakai on 2016/05/26.
  */
 public class Egosa extends TefutefuReaction {
-  private String myScreenName;
-  private String myName;
-  private String patternString;
+  private String  myScreenName;
+  private String  myName;
+  private String  patternString;
   private Twitter t4j;
 
   public Egosa(Twitter t4j) {
     super(TefutefuReactionTypes.Fav);
-    this.t4j = t4j;
+    this.t4j          = t4j;
     this.reactionName = "Egosa";
     try {
       User user          = t4j.verifyCredentials();
@@ -36,7 +36,7 @@ public class Egosa extends TefutefuReaction {
     TefutefuReactionContainer trc = new TefutefuReactionContainer(
         TefutefuReactionTypes.Fav,
         new TefutefuReactionTarget(status.getId(), status.getUser().getScreenName())
-    );
+      );
 
     return trc;
   }

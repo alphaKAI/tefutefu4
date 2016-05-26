@@ -17,15 +17,15 @@ import java.util.HashMap;
 
 
 public class TefutefuReactionStore extends TefutefuService {
-  public  HashMap<String, TefutefuReaction> reactions = new HashMap<String, TefutefuReaction>();
-  public  Twitter t4j;
+  public  HashMap<String, TefutefuReaction>     reactions = new HashMap<>();
+  public  Twitter                               t4j;
   private HashMapUtil<String, TefutefuReaction> hashMapUtil;
 
   public TefutefuReactionStore(Twitter t4j) {
     this.serviceName = "TefutefuReactionStore";
-    this.type = ServiceType.Daemon;
-    this.t4j = t4j;
-    this.hashMapUtil = new HashMapUtil<String, TefutefuReaction>();
+    this.type        = ServiceType.Daemon;
+    this.t4j         = t4j;
+    this.hashMapUtil = new HashMapUtil<>();
   }
 
   public boolean addNewReaction(TefutefuReaction newReaction) {
@@ -41,18 +41,23 @@ public class TefutefuReactionStore extends TefutefuService {
     return this.hashMapUtil.existValue(this.reactions, name);
   }
 
+  /*
   public void processTweet() {
     this.checkRecvQueue();
   }
+  */
 
   @Override
   public void recvReaction(TefutefuMessage<Status> message) {
-    Status thisStatus = message.data;
-    ArrayDeque<TefutefuReactionContainer> reactionList = new ArrayDeque<TefutefuReactionContainer>();
-    ArrayList<TefutefuReactionTypes> fallthroughList = new ArrayList<TefutefuReactionTypes>();
-    boolean fallthrough = true;
-    boolean fallthroughModified = false;
+    Status                                thisStatus          = message.data;
+    ArrayDeque<TefutefuReactionContainer> reactionList        = new ArrayDeque<TefutefuReactionContainer>();
+    ArrayList<TefutefuReactionTypes>      fallthroughList     = new ArrayList<TefutefuReactionTypes>();
+    boolean                               fallthrough         = true;
+    boolean                               fallthroughModified = false;
 
+    /*
+    * TODO: 優先度(Imprtance)を元に優先度の高いものから評価するようにする
+    * */
     if (this.reactions != null) {
       for (HashMap.Entry<String, TefutefuReaction> entry : this.reactions.entrySet()) {
         System.out.println("REACTION => " + entry.getKey());
@@ -103,6 +108,7 @@ public class TefutefuReactionStore extends TefutefuService {
           }
         }
       }
+
     }
   }
 

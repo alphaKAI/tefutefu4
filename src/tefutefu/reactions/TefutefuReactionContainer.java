@@ -21,9 +21,9 @@ public class TefutefuReactionContainer {
       TefutefuReactionTypes  type,
       TefutefuReactionTarget target,
       String                 generatedText
-    ) {
-    this.type   = type;
-    this.target = target;
+  ) {
+    this.type          = type;
+    this.target        = target;
     this.generatedText = generatedText;
   }
 }
