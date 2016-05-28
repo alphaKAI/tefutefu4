@@ -16,7 +16,8 @@ class TefutefuUserStreamAdapter extends UserStreamAdapter {
     this.tus = tus;
   }
   
-  @Override public void onStatus(
+  @Override
+  public void onStatus(
       Status status
   ) {
     System.out.println("Get a new status");

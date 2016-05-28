@@ -7,7 +7,6 @@ import twitter4j.Twitter;
 import twitter4j.User;
 
 import java.util.Date;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +27,7 @@ public class DefaultReply extends TefutefuReaction {
       User user = t4j.verifyCredentials();
       this.patternString = "^@" + user.getScreenName();
     } catch (Exception e) {}
+
   }
 
   public TefutefuReactionContainer process(
@@ -44,7 +44,7 @@ public class DefaultReply extends TefutefuReaction {
         this
     );
 
-    System.out.println("Process" + generatedString);
+    System.out.println("generatedString for Reply : " + generatedString);
 
     return trc;
   }
@@ -55,8 +55,8 @@ public class DefaultReply extends TefutefuReaction {
     Pattern pattern = Pattern.compile(this.patternString);
     Matcher m = pattern.matcher(status.getText());
 
-    //return m.find();
-    return false;
+    return m.find();
+    //return true;
   }
 
   public void processReturnedJson(

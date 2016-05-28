@@ -12,6 +12,7 @@ import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**

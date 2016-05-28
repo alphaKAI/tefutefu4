@@ -21,9 +21,7 @@ public class Egosa extends TefutefuReaction {
   public Egosa(
       Twitter t4j
   ) {
-    super(
-        TefutefuReactionTypes.Fav
-    );
+    super(TefutefuReactionTypes.Fav);
 
     this.t4j          = t4j;
     this.reactionName = "Egosa";

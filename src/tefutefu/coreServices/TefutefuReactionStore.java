@@ -68,13 +68,26 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
     /*
     * TODO: 優先度(Imprtance)を元に優先度の高いものから評価するようにする
     * */
+
     if (this.reactions != null) {
+      System.out.println("*****************************************************************");
+      System.out.println("=================================================================");
+      System.out.println("*****************************************************************");
       for (HashMap.Entry<String, TefutefuReaction> entry : this.reactions.entrySet()) {
-        System.out.println("REACTION => " + entry.getKey());
+        System.out.println("Reaction => " + entry.getKey());
         TefutefuReaction thisReaction = entry.getValue();
+/*
+        if (thisReaction.match(thisStatus)) {
+          System.out.println("matched: " + thisReaction.reactionName);
+          reactionList.add(thisReaction);
+        }
+*/
 
         if (thisReaction.match(thisStatus)) {
           boolean granted = false;
+
+          System.out.println("\tMatched: " + thisReaction.reactionName);
+
           if (fallthroughModified) {
             for (TefutefuReactionTypes type : fallthroughList) {
               if (thisReaction.type == type) {
@@ -87,11 +100,11 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
           }
 
           if (granted) {
-            System.out.println("granted: " + thisReaction.reactionName);
+            System.out.println("\tGranted: " + thisReaction.reactionName);
             reactionList.add(thisReaction);
           }
 
-          if (thisReaction.fallthrough && thisReaction.limited && granted) {
+          if (thisReaction.fallthrough && thisReaction.limited) {
             if (fallthrough == false) {
               fallthrough = true;
             }
@@ -104,18 +117,22 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
 
             fallthroughModified = true;
           }
+
+          if (thisReaction.fallthrough == false) {
+            break;
+          }
         }
+
       }
 
 
       for (TefutefuReaction reaction : reactionList) {
-        System.out.println("=> " + reaction.reactionName);
+        System.out.println("\tAct => " + reaction.reactionName);
 
         TefutefuReactionContainer trc = reaction.process(thisStatus);
 
         if (reaction.type != TefutefuReactionTypes.Display) {
-          //Queuesに投げる
-          System.out.println("Push new reaction " + reaction.reactionName);
+          System.out.println("\tPush new reaction " + reaction.reactionName);
           this.tsm.twq.pushToRecvQueue(new TefutefuMessage<>(trc));
         }
       }
