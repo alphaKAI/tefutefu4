@@ -20,7 +20,7 @@ class TefutefuUserStreamAdapter extends UserStreamAdapter {
   }  
 }
 
-public class TefutefuUserStream extends TefutefuService {
+public class TefutefuUserStream extends TefutefuService<Status> {
   private TefutefuServiceManager tsm;
   private TwitterStreamFactory   twitterStreamFactory;
   private TwitterStream          twitterStream;

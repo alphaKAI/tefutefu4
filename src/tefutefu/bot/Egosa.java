@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 /**
  * Created by alphakai on 2016/05/26.
  */
+
 public class Egosa extends TefutefuReaction {
   private String  myScreenName;
   private String  myName;
@@ -35,7 +36,8 @@ public class Egosa extends TefutefuReaction {
   public TefutefuReactionContainer process(Status status) {
     TefutefuReactionContainer trc = new TefutefuReactionContainer(
         TefutefuReactionTypes.Fav,
-        new TefutefuReactionTarget(status.getId(), status.getUser().getScreenName())
+        new TefutefuReactionTarget(status.getId(), status.getUser().getScreenName()),
+        this
       );
 
     return trc;
@@ -47,4 +49,7 @@ public class Egosa extends TefutefuReaction {
 
     return m.find();
   }
+
+  @Override
+  public <T> void processReturnJson(T returnedData) {}
 }

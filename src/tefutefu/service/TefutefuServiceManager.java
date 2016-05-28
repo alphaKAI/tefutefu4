@@ -1,5 +1,6 @@
 package tefutefu.service;
 
+import tefutefu.coreServices.TefutefuTwitterQueues;
 import tefutefu.message.*;
 import tefutefu.util.HashMapUtil;
 import twitter4j.Twitter;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 
 public class TefutefuServiceManager {
   private HashMap<String, TefutefuService>     services           = new HashMap<String, TefutefuService>();
-  private HashMapUtil<String, TefutefuService> hashMapUtil      = new HashMapUtil<String, TefutefuService>();
+  private HashMapUtil<String, TefutefuService> hashMapUtil        = new HashMapUtil<String, TefutefuService>();
   public  Twitter                              t4j;
   public  TefutefuMessageQueues<Status>        streamStatusQueues = new TefutefuMessageQueues<Status>() {
     @Override
@@ -22,9 +23,11 @@ public class TefutefuServiceManager {
       services.get("TefutefuReactionStore").checkRecvQueue();
     }
   };
+  public TefutefuTwitterQueues twq;
 
   public TefutefuServiceManager(Twitter t4j) {
     this.t4j = t4j;
+    this.twq = new TefutefuTwitterQueues(t4j, this);
   }
 
   public boolean addNewService(TefutefuService newService) {
@@ -57,7 +60,7 @@ public class TefutefuServiceManager {
     this.streamStatusQueues.checkRecvQueue();//Experimental
   }
 
-  public void sendMesseageToService(String targetService, TefutefuMessage<Status> message) {
+  public void sendMesseageToService(String targetService, TefutefuMessage message) {
     if (this.existService(targetService)) {
       this.services.get(targetService).pushToRecvQueue(message);
     }

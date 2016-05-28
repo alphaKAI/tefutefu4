@@ -54,8 +54,8 @@ public class TefutefuBot {
     TwitterFactory          twitterFactory = new TwitterFactory(conf);
     Twitter                 twitter        = twitterFactory.getInstance();
     TefutefuServiceManager  tsm            = new TefutefuServiceManager(twitter);
-    TefutefuReactionStore   reactionStore  = new TefutefuReactionStore(twitter);
 
+    TefutefuReactionStore   reactionStore  = new TefutefuReactionStore(twitter, tsm);
     // TODO: フォールスローのテストをする。
     reactionStore.addNewReaction(new Egosa(twitter));
     reactionStore.addNewReaction(new OutPut());

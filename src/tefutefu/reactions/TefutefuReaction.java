@@ -9,10 +9,11 @@ public abstract class TefutefuReaction extends TefutefuMessageQueues<Status> {
   public String                           reactionName;
   public TefutefuReactionTypes            type;
   // フォールスローするかどうか。 すなわち、このReaction後に他のReactionが動作することを許すかどうか
-  public boolean                          fallthrough     = true;
-  public boolean                          limited         = false;//limitedが有効な場合、以下のフォロースローリストにないtypeは弾かれる
-  public ArrayList<TefutefuReactionTypes> fallthroughList = new ArrayList<TefutefuReactionTypes>();
-  public Importance                       importance      = Importance.MID;
+  public boolean                          fallthrough      = true;
+  public boolean                          limited          = false;//limitedが有効な場合、以下のフォロースローリストにないtypeは弾かれる
+  public ArrayList<TefutefuReactionTypes> fallthroughList  = new ArrayList<TefutefuReactionTypes>();
+  public Importance                       importance       = Importance.MID;
+  public boolean                          hashAfterProcess = false;
 
   public TefutefuReaction(TefutefuReactionTypes type) {
     this.type    = type;
@@ -39,4 +40,6 @@ public abstract class TefutefuReaction extends TefutefuMessageQueues<Status> {
   public abstract boolean match(Status status);
 
   public abstract TefutefuReactionContainer process(Status status);
+
+  public abstract <T> void  processReturnJson(T returnedData);
 }

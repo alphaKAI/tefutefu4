@@ -7,6 +7,7 @@ import tefutefu.message.TefutefuMessage;
 import tefutefu.service.ServiceType;
 import tefutefu.service.TefutefuService;
 import tefutefu.reactions.*;
+import tefutefu.service.TefutefuServiceManager;
 import tefutefu.util.HashMapUtil;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -16,16 +17,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class TefutefuReactionStore extends TefutefuService {
+public class TefutefuReactionStore extends TefutefuService<Status> {
   public  HashMap<String, TefutefuReaction>     reactions = new HashMap<>();
   public  Twitter                               t4j;
   private HashMapUtil<String, TefutefuReaction> hashMapUtil;
+  private TefutefuServiceManager                tsm;
 
-  public TefutefuReactionStore(Twitter t4j) {
+  public TefutefuReactionStore(Twitter t4j, TefutefuServiceManager tsm) {
     this.serviceName = "TefutefuReactionStore";
     this.type        = ServiceType.Daemon;
     this.t4j         = t4j;
     this.hashMapUtil = new HashMapUtil<>();
+    this.tsm         = tsm;
   }
 
   public boolean addNewReaction(TefutefuReaction newReaction) {
@@ -96,19 +99,13 @@ public class TefutefuReactionStore extends TefutefuService {
         }
       }
 
+
       while (reactionList.iterator().hasNext()) {
         TefutefuReactionContainer trc = reactionList.poll();
-        //反応を書く
-
-        if (trc.type == TefutefuReactionTypes.Fav) {
-          try {
-            t4j.createFavorite(trc.target.targetTweetID);
-          } catch (Exception e) {
-
-          }
-        }
+        //Queuesに投げる
+        this.tsm.twq.pushToRecvQueue(new TefutefuMessage<TefutefuReactionContainer>(trc));
       }
-
+      this.tsm.twq.checkRecvQueue();
     }
   }
 

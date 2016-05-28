@@ -16,7 +16,8 @@ public class OutPut extends TefutefuReaction {
 
   public TefutefuReactionContainer process(Status status) {
     TefutefuReactionContainer trc = new TefutefuReactionContainer(
-        TefutefuReactionTypes.Custom
+        TefutefuReactionTypes.Custom,
+        this
       );
 
     System.out.println("------------------------------------");
@@ -32,4 +33,7 @@ public class OutPut extends TefutefuReaction {
   public boolean match(Status status) {
     return true;
   }
+
+  @Override
+  public <T> void processReturnJson(T returnedData) {}
 }
