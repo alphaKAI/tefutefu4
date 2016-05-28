@@ -6,9 +6,11 @@ public class TefutefuReactionContainer {
   public String                 generatedText;
   public TefutefuReaction       reaction;
 
-  public TefutefuReactionContainer(TefutefuReactionTypes  type,
-                                   TefutefuReaction reaction) {
-    this.type   = type;
+  public TefutefuReactionContainer(
+      TefutefuReactionTypes  type,
+      TefutefuReaction reaction
+  ) {
+    this.type     = type;
     this.reaction = reaction;
   }
 

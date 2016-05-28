@@ -10,11 +10,15 @@ import twitter4j.conf.Configuration;
 class TefutefuUserStreamAdapter extends UserStreamAdapter {
   private TefutefuUserStream tus;
   
-  public TefutefuUserStreamAdapter(TefutefuUserStream tus) {
+  public TefutefuUserStreamAdapter(
+      TefutefuUserStream tus
+  ) {
     this.tus = tus;
   }
   
-  @Override public void onStatus(Status status) {
+  @Override public void onStatus(
+      Status status
+  ) {
     System.out.println("Get a new status");
     this.tus.processStatus(status);
   }  
@@ -25,12 +29,17 @@ public class TefutefuUserStream extends TefutefuService<Status> {
   private TwitterStreamFactory   twitterStreamFactory;
   private TwitterStream          twitterStream;
 
-  public TefutefuUserStream(TefutefuServiceManager tsm) {
+  public TefutefuUserStream(
+      TefutefuServiceManager tsm
+  ) {
     super(ServiceType.Streamer, "TefutefuUserStream");
+
     this.tsm = tsm;
   }
 
-  public void initialize(Configuration conf) {
+  public void initialize(
+      Configuration conf
+  ) {
     twitterStreamFactory = new TwitterStreamFactory(conf);
     twitterStream        = twitterStreamFactory.getInstance();
   }
@@ -48,7 +57,9 @@ public class TefutefuUserStream extends TefutefuService<Status> {
     this.running = false;
   }
   
-  protected void processStatus(Status status) {
+  protected void processStatus(
+      Status status
+  ) {
     this.tsm.streamStatusQueues.pushToRecvQueue(new TefutefuMessage<>(status));
     this.tsm.processTweetEvent();
   }

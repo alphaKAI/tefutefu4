@@ -23,14 +23,20 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
   private HashMapUtil<String, TefutefuReaction> hashMapUtil;
   private TefutefuServiceManager                tsm;
 
-  public TefutefuReactionStore(Twitter t4j, TefutefuServiceManager tsm) {
+  public TefutefuReactionStore(
+      Twitter t4j,
+      TefutefuServiceManager tsm
+  ) {
     super(ServiceType.Daemon, "TefutefuReactionStore");
+
     this.t4j         = t4j;
     this.hashMapUtil = new HashMapUtil<>();
     this.tsm         = tsm;
   }
 
-  public boolean addNewReaction(TefutefuReaction newReaction) {
+  public boolean addNewReaction(
+      TefutefuReaction newReaction
+  ) {
     if (this.existReaction(newReaction.reactionName)) {
       return false;
     } else {
@@ -50,7 +56,9 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
   */
 
   @Override
-  public void recvReaction(TefutefuMessage<Status> message) {
+  public void recvReaction(
+      TefutefuMessage<Status> message
+  ) {
     Status                           thisStatus          = message.data;
     ArrayDeque<TefutefuReaction>     reactionList        = new ArrayDeque<>();
     ArrayList<TefutefuReactionTypes> fallthroughList     = new ArrayList<TefutefuReactionTypes>();

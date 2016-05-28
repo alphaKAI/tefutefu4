@@ -16,7 +16,9 @@ public class TefutefuTwitterStatuses {
     this.hasStatuses = false;
   }
 
-  public void addNewStatus(Status status) {
+  public void addNewStatus(
+      Status status
+  ) {
     if (this.hasStatuses == false) {
       this.hasStatuses = true;
     }

@@ -57,6 +57,7 @@ public class TefutefuBot {
 
     TefutefuReactionStore   reactionStore  = new TefutefuReactionStore(twitter, tsm);
     // TODO: フォールスローのテストをする。
+    reactionStore.addNewReaction(new DefaultReply(twitter));
     reactionStore.addNewReaction(new Egosa(twitter));
     reactionStore.addNewReaction(new OutPut());
 

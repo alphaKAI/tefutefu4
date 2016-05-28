@@ -8,6 +8,7 @@ import tefutefu.reactions.TefutefuReactionTypes;
 import tefutefu.reactions.TefutefuTwitterStatuses;
 import tefutefu.service.TefutefuServiceManager;
 import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
 import java.util.ArrayList;
@@ -21,22 +22,47 @@ public class TefutefuTwitterQueues extends TefutefuMessageQueues<TefutefuReactio
   public  Twitter                t4j;
   private TefutefuServiceManager tsm;
 
-  public TefutefuTwitterQueues(Twitter t4j, TefutefuServiceManager tsm) {
+  public TefutefuTwitterQueues(
+      Twitter t4j,
+      TefutefuServiceManager tsm
+  ) {
     this.t4j = t4j;
     this.tsm = tsm;
   }
 
   @Override
-  public void recvReaction(TefutefuMessage<TefutefuReactionContainer> message) {
-    TefutefuReactionContainer trc     = message.data;
-    TefutefuTwitterStatuses ttrv = new TefutefuTwitterStatuses();
+  public void recvReaction(
+      TefutefuMessage<TefutefuReactionContainer> message
+  ) {
+    TefutefuReactionContainer trc = message.data;
+    TefutefuTwitterStatuses ttrv  = new TefutefuTwitterStatuses();
+
+    //System.out.println("recvReaction reactionName : " + trc.reaction.reactionName);
 
     // TODO : switchに書き換える
     if (trc.type == TefutefuReactionTypes.Fav) {
       try {
-        ttrv.addNewStatus(t4j.createFavorite(trc.target.targetTweetID));
+        ttrv.addNewStatus(
+            t4j.createFavorite(
+                trc.target.targetTweetID
+            )
+        );
       } catch (Exception e) {
       }
+    }
+
+    if (trc.type == TefutefuReactionTypes.Reply) {
+      try {
+        ttrv.addNewStatus(
+            t4j.updateStatus(
+                new StatusUpdate(
+                    trc.generatedText
+                ).inReplyToStatusId(
+                    trc.target.targetTweetID
+                )
+            )
+        );
+      } catch (Exception e) {}
     }
 
     if (ttrv.hasStatuses && trc.reaction.needReturnedValue) {

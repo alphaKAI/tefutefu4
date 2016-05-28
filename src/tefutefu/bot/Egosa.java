@@ -18,10 +18,16 @@ public class Egosa extends TefutefuReaction {
   private String  patternString;
   private Twitter t4j;
 
-  public Egosa(Twitter t4j) {
-    super(TefutefuReactionTypes.Fav);
+  public Egosa(
+      Twitter t4j
+  ) {
+    super(
+        TefutefuReactionTypes.Fav
+    );
+
     this.t4j          = t4j;
     this.reactionName = "Egosa";
+
     try {
       User user          = t4j.verifyCredentials();
       this.myScreenName  = user.getScreenName();

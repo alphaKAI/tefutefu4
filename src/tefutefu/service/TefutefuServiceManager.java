@@ -14,7 +14,9 @@ public class TefutefuServiceManager {
   public  Twitter                              t4j;
   public  TefutefuMessageQueues<Status>        streamStatusQueues = new TefutefuMessageQueues<Status>() {
     @Override
-    public void recvReaction(TefutefuMessage<Status> message) {
+    public void recvReaction(
+        TefutefuMessage<Status> message
+    ) {
       //TODO : 他のサービス(と言うかリアクション処理)にたらい回す
       //Status status = message.data;
       System.out.println("recvReaction");
@@ -25,21 +27,29 @@ public class TefutefuServiceManager {
   };
   public TefutefuTwitterQueues twq;
 
-  public TefutefuServiceManager(Twitter t4j) {
+  public TefutefuServiceManager(
+      Twitter t4j
+  ) {
     this.t4j = t4j;
     this.twq = new TefutefuTwitterQueues(t4j, this);
   }
 
-  public boolean addNewService(TefutefuService newService) {
+  public boolean addNewService(
+      TefutefuService newService
+  ) {
     if (this.existService(newService.serviceName)) {
       return false;
     } else {
-      services.put(newService.serviceName, newService);
+      services.put(
+          newService.serviceName,
+          newService);
       return true;
     }
   }
   
-  public boolean startService(String serviceName) {
+  public boolean startService(
+      String serviceName
+  ) {
     if (!this.existService(serviceName)) {
       System.out.println("[Error] - There is no service as" + serviceName);
       return false;
@@ -54,7 +64,9 @@ public class TefutefuServiceManager {
     }
   }
 
-  public boolean stopService(String serviceName) {
+  public boolean stopService(
+      String serviceName
+  ) {
     if (!this.existService(serviceName)) {
       System.out.println("[Error] - There is no service as" + serviceName);
       return false;

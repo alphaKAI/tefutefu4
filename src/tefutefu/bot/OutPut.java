@@ -1,5 +1,6 @@
 package tefutefu.bot;
 
+import tefutefu.commons.Importance;
 import tefutefu.reactions.TefutefuReaction;
 import tefutefu.reactions.TefutefuReactionContainer;
 import tefutefu.reactions.TefutefuReactionTypes;
@@ -12,7 +13,9 @@ import twitter4j.Status;
 public class OutPut extends TefutefuReaction {
   public OutPut() {
     super(TefutefuReactionTypes.Display);
+
     this.reactionName = "OutPut";
+    this.importance   = Importance.HIGH;
   }
 
   public TefutefuReactionContainer process(Status status) {
