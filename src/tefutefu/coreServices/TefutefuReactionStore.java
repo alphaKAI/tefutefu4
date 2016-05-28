@@ -24,8 +24,7 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
   private TefutefuServiceManager                tsm;
 
   public TefutefuReactionStore(Twitter t4j, TefutefuServiceManager tsm) {
-    this.serviceName = "TefutefuReactionStore";
-    this.type        = ServiceType.Daemon;
+    super(ServiceType.Daemon, "TefutefuReactionStore");
     this.t4j         = t4j;
     this.hashMapUtil = new HashMapUtil<>();
     this.tsm         = tsm;
@@ -52,11 +51,11 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
 
   @Override
   public void recvReaction(TefutefuMessage<Status> message) {
-    Status                                thisStatus          = message.data;
-    ArrayDeque<TefutefuReactionContainer> reactionList        = new ArrayDeque<TefutefuReactionContainer>();
-    ArrayList<TefutefuReactionTypes>      fallthroughList     = new ArrayList<TefutefuReactionTypes>();
-    boolean                               fallthrough         = true;
-    boolean                               fallthroughModified = false;
+    Status                           thisStatus          = message.data;
+    ArrayDeque<TefutefuReaction>     reactionList        = new ArrayDeque<>();
+    ArrayList<TefutefuReactionTypes> fallthroughList     = new ArrayList<TefutefuReactionTypes>();
+    boolean                          fallthrough         = true;
+    boolean                          fallthroughModified = false;
 
     /*
     * TODO: 優先度(Imprtance)を元に優先度の高いものから評価するようにする
@@ -80,7 +79,8 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
           }
 
           if (granted) {
-            reactionList.add(thisReaction.process(thisStatus));
+            System.out.println("granted: " + thisReaction.reactionName);
+            reactionList.add(thisReaction);
           }
 
           if (thisReaction.fallthrough && thisReaction.limited && granted) {
@@ -100,11 +100,20 @@ public class TefutefuReactionStore extends TefutefuService<Status> {
       }
 
 
-      while (reactionList.iterator().hasNext()) {
-        TefutefuReactionContainer trc = reactionList.poll();
-        //Queuesに投げる
-        this.tsm.twq.pushToRecvQueue(new TefutefuMessage<TefutefuReactionContainer>(trc));
+      for (TefutefuReaction reaction : reactionList) {
+        System.out.println("=> " + reaction.reactionName);
+
+        TefutefuReactionContainer trc = reaction.process(thisStatus);
+
+        if (reaction.type != TefutefuReactionTypes.Display) {
+          //Queuesに投げる
+          System.out.println("Push new reaction " + reaction.reactionName);
+          this.tsm.twq.pushToRecvQueue(new TefutefuMessage<>(trc));
+        }
       }
+
+      reactionList.clear();
+
       this.tsm.twq.checkRecvQueue();
     }
   }

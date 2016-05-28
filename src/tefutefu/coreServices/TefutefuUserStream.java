@@ -26,9 +26,8 @@ public class TefutefuUserStream extends TefutefuService<Status> {
   private TwitterStream          twitterStream;
 
   public TefutefuUserStream(TefutefuServiceManager tsm) {
+    super(ServiceType.Streamer, "TefutefuUserStream");
     this.tsm         = tsm;
-    this.type        = ServiceType.Streamer;
-    this.serviceName = "TefutefuUserStream";
   }
 
   public void initialize(Configuration conf) {

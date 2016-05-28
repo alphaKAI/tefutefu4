@@ -13,7 +13,7 @@ public abstract class TefutefuReaction extends TefutefuMessageQueues<Status> {
   public boolean                          limited          = false;//limitedが有効な場合、以下のフォロースローリストにないtypeは弾かれる
   public ArrayList<TefutefuReactionTypes> fallthroughList  = new ArrayList<TefutefuReactionTypes>();
   public Importance                       importance       = Importance.MID;
-  public boolean                          hashAfterProcess = false;
+  public boolean                          hasAfterProcess  = false;
 
   public TefutefuReaction(TefutefuReactionTypes type) {
     this.type    = type;
@@ -41,5 +41,5 @@ public abstract class TefutefuReaction extends TefutefuMessageQueues<Status> {
 
   public abstract TefutefuReactionContainer process(Status status);
 
-  public abstract <T> void  processReturnJson(T returnedData);
+  public abstract void  processReturnJson(Status status);
 }

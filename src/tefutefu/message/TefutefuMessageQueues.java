@@ -14,11 +14,11 @@ public class TefutefuMessageQueues<T> {
 
   public void checkRecvQueue() {
     if (!this.recvQueue.isEmpty()) {
-      HashMap<Importance, ArrayList<TefutefuMessage<T>>> tasks = new HashMap<Importance, ArrayList<TefutefuMessage<T>>>();
+      HashMap<Importance, ArrayList<TefutefuMessage<T>>> tasks = new HashMap<>();
 
-      tasks.put(Importance.LOW, new ArrayList<TefutefuMessage<T>>());
-      tasks.put(Importance.MID, new ArrayList<TefutefuMessage<T>>());
-      tasks.put(Importance.HIGH, new ArrayList<TefutefuMessage<T>>());
+      tasks.put(Importance.LOW,  new ArrayList<>());
+      tasks.put(Importance.MID,  new ArrayList<>());
+      tasks.put(Importance.HIGH, new ArrayList<>());
       
       for (TefutefuMessage<T> message : this.recvQueue) {
         tasks.get(message.getImportance()).add(message);

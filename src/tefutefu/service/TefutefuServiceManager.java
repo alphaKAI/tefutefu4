@@ -54,13 +54,31 @@ public class TefutefuServiceManager {
     }
   }
 
+  public boolean stopService(String serviceName) {
+    if (!this.existService(serviceName)) {
+      System.out.println("[Error] - There is no service as" + serviceName);
+      return false;
+    } else {
+      if (this.services.get(serviceName).running) {
+        System.out.println("Stop service : " + serviceName);
+        this.services.get(serviceName).stop();
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   //ユーザーストリームでイベントを読み込んだらこのメソッドが呼ばれる
   //checkRecvQueueで呼ばれるrecvReactionに他のサービスによる反応を記述。
   public void processTweetEvent() {
     this.streamStatusQueues.checkRecvQueue();//Experimental
   }
 
-  public void sendMesseageToService(String targetService, TefutefuMessage message) {
+  public void sendMesseageToService(
+      String targetService,
+      TefutefuMessage message
+  ) {
     if (this.existService(targetService)) {
       this.services.get(targetService).pushToRecvQueue(message);
     }

@@ -7,7 +7,7 @@ abstract public class TefutefuService<T> extends TefutefuMessageQueues<T> {
   public String      serviceName;
   public boolean     running;
 
-  public void initialize(ServiceType type, String name) {
+  public TefutefuService(ServiceType type, String name) {
     this.type        = type;
     this.serviceName = name;
   }

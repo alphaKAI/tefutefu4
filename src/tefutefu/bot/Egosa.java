@@ -35,7 +35,7 @@ public class Egosa extends TefutefuReaction {
 
   public TefutefuReactionContainer process(Status status) {
     TefutefuReactionContainer trc = new TefutefuReactionContainer(
-        TefutefuReactionTypes.Fav,
+        this.type,
         new TefutefuReactionTarget(status.getId(), status.getUser().getScreenName()),
         this
       );
@@ -51,5 +51,5 @@ public class Egosa extends TefutefuReaction {
   }
 
   @Override
-  public <T> void processReturnJson(T returnedData) {}
+  public void processReturnJson(Status status) {}
 }

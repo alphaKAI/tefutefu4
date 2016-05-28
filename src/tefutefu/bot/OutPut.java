@@ -10,13 +10,13 @@ import twitter4j.Status;
  */
 public class OutPut extends TefutefuReaction {
   public OutPut() {
-    super(TefutefuReactionTypes.Custom);
+    super(TefutefuReactionTypes.Display);
     this.reactionName = "OutPut";
   }
 
   public TefutefuReactionContainer process(Status status) {
     TefutefuReactionContainer trc = new TefutefuReactionContainer(
-        TefutefuReactionTypes.Custom,
+        this.type,
         this
       );
 
@@ -35,5 +35,5 @@ public class OutPut extends TefutefuReaction {
   }
 
   @Override
-  public <T> void processReturnJson(T returnedData) {}
+  public void processReturnJson(Status status) {}
 }
