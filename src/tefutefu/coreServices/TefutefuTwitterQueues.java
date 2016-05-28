@@ -5,6 +5,7 @@ import tefutefu.message.TefutefuMessage;
 import tefutefu.message.TefutefuMessageQueues;
 import tefutefu.reactions.TefutefuReactionContainer;
 import tefutefu.reactions.TefutefuReactionTypes;
+import tefutefu.reactions.TefutefuTwitterStatuses;
 import tefutefu.service.TefutefuServiceManager;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -27,18 +28,24 @@ public class TefutefuTwitterQueues extends TefutefuMessageQueues<TefutefuReactio
 
   @Override
   public void recvReaction(TefutefuMessage<TefutefuReactionContainer> message) {
-    TefutefuReactionContainer trc = message.data;
+    TefutefuReactionContainer trc     = message.data;
+    TefutefuTwitterStatuses ttrv = new TefutefuTwitterStatuses();
 
     // TODO : switchに書き換える
     if (trc.type == TefutefuReactionTypes.Fav) {
       try {
-        System.out.println("ふぁぼるぜ");
-        t4j.createFavorite(trc.target.targetTweetID);
+        ttrv.addNewStatus(t4j.createFavorite(trc.target.targetTweetID));
       } catch (Exception e) {
       }
     }
 
-    // TODO : hasAfterProcessが真である場合帰ってきたJSONを渡す(この際に、TefutefuRetuendValueを作ってそれでラップする)
+    if (ttrv.hasStatuses && trc.reaction.needReturnedValue) {
+      trc.reaction.processReturnedJson(ttrv);
+    }
+
+    if (trc.reaction.hasAfterProcess) {
+      trc.reaction.afterProcess();
+    }
   }
 
 }

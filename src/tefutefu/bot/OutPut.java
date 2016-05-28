@@ -3,6 +3,7 @@ package tefutefu.bot;
 import tefutefu.reactions.TefutefuReaction;
 import tefutefu.reactions.TefutefuReactionContainer;
 import tefutefu.reactions.TefutefuReactionTypes;
+import tefutefu.reactions.TefutefuTwitterStatuses;
 import twitter4j.Status;
 
 /**
@@ -34,6 +35,7 @@ public class OutPut extends TefutefuReaction {
     return true;
   }
 
-  @Override
-  public void processReturnJson(Status status) {}
+  public void processReturnedJson(TefutefuTwitterStatuses returnedValue) {}
+
+  public void afterProcess() {}
 }

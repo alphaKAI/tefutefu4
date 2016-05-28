@@ -1,9 +1,6 @@
 package tefutefu.bot;
 
-import tefutefu.reactions.TefutefuReaction;
-import tefutefu.reactions.TefutefuReactionContainer;
-import tefutefu.reactions.TefutefuReactionTarget;
-import tefutefu.reactions.TefutefuReactionTypes;
+import tefutefu.reactions.*;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
@@ -50,6 +47,7 @@ public class Egosa extends TefutefuReaction {
     return m.find();
   }
 
-  @Override
-  public void processReturnJson(Status status) {}
+  public void processReturnedJson(TefutefuTwitterStatuses returnedValue) {}
+
+  public void afterProcess() {}
 }

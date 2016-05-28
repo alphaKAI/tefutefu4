@@ -27,7 +27,7 @@ public class TefutefuUserStream extends TefutefuService<Status> {
 
   public TefutefuUserStream(TefutefuServiceManager tsm) {
     super(ServiceType.Streamer, "TefutefuUserStream");
-    this.tsm         = tsm;
+    this.tsm = tsm;
   }
 
   public void initialize(Configuration conf) {
@@ -49,7 +49,7 @@ public class TefutefuUserStream extends TefutefuService<Status> {
   }
   
   protected void processStatus(Status status) {
-    this.tsm.streamStatusQueues.pushToRecvQueue(new TefutefuMessage<Status>(status));
+    this.tsm.streamStatusQueues.pushToRecvQueue(new TefutefuMessage<>(status));
     this.tsm.processTweetEvent();
   }
 }
